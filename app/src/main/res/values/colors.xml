@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="colorPrimary">#1f63aa</color>
+	<color name="colorPrimaryDark">#1a5592</color>
+	<color name="colorAccent">#e93d3d</color>
+
+	<color name="colorGray300">#E0E0E0</color>
+
+	<color name="hostel_1">#d03233</color>
+	<color name="hostel_2">#f2e831</color>
+	<color name="hostel_3">#ec671c</color>
+	<color name="hostel_5">#9b4a96</color>
+	<color name="hostel_6">#374e9e</color>
+	<color name="hostel_7_1">#f3966a</color>
+	<color name="hostel_7_2">#d86fa8</color>
+	<color name="hostel_8_1">#159838</color>
+	<color name="hostel_8_2">#84bd4a</color>
+</resources>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/height_toolbar"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activities.MainActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="16dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+
+            <ImageView
+                android:id="@+id/hostelPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/hostel_1"/>
+
+            <TextView
+                android:id="@+id/hostelTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|start"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:fontFamily="sans-serif"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"/>
+
+        </FrameLayout>
+
+        <!--Buttons-->
+        <LinearLayout
+            android:id="@+id/buttonsContainer"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:paddingLeft="@dimen/text_margin"
+            android:paddingRight="@dimen/text_margin">
+
+            <Button
+                android:id="@+id/buttonCall"
+                style="@style/HostelButtonStyle"
+                android:layout_marginRight="8dp"
+                android:text="Позвонить"/>
+
+            <Button
+                android:id="@+id/buttonInMap"
+                style="@style/HostelButtonStyle"
+                android:layout_marginLeft="8dp"
+                android:text="На карте"/>
+
+        </LinearLayout>
+
+        <!--Address-->
+        <TextView
+            android:id="@+id/hostelAddress"
+            style="@style/HostelInfoStyle"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="Адрес: "/>
+
+        <!--Floors-->
+        <TextView
+            android:id="@+id/hostelNumberFloors"
+            style="@style/HostelInfoStyle"
+            android:text="Количество этажей:"/>
+
+        <!--Students-->
+        <TextView
+            android:id="@+id/hostelNumberStudents"
+            style="@style/HostelInfoStyle"
+            android:text="Проживает студентов:"/>
+
+        <!--Rating-->
+        <TextView
+            android:id="@+id/hostelRating"
+            style="@style/HostelInfoStyle"
+            android:layout_marginBottom="@dimen/vertical_margin_text"
+            android:text="Рейтинг:"/>
+
+        <!--Staff content-->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <LinearLayout
+                android:id="@+id/hostelManagerContainer"
+                style="@style/StaffContainerStyle">
+
+                <TextView
+                    android:id="@+id/hostelManagerPost"
+                    style="@style/StaffTextStyle"
+                    android:text="@string/hostelManager"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/hostelManagerPhoto"
+                    style="@style/StaffPhotoStyle"/>
+
+                <TextView
+                    android:id="@+id/hostelManagerName"
+                    style="@style/StaffNameStyle"
+                    android:text="@string/missing"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/studentManagerContainer"
+                style="@style/StaffContainerStyle">
+
+                <TextView
+                    android:id="@+id/studentManagerPost"
+                    style="@style/StaffTextStyle"
+                    android:text="@string/studentManager"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/studentManagerPhoto"
+                    style="@style/StaffPhotoStyle"/>
+
+                <TextView
+                    android:id="@+id/studentManagerName"
+                    style="@style/StaffNameStyle"
+                    android:text="@string/missing"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <LinearLayout
+                android:id="@+id/cultureManagerContainer"
+                style="@style/StaffContainerStyle">
+
+                <TextView
+                    android:id="@+id/cultureManagerPost"
+                    style="@style/StaffTextStyle"
+                    android:text="@string/cultureManager"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/cultureManagerPhoto"
+                    style="@style/StaffPhotoStyle"/>
+
+                <TextView
+                    android:id="@+id/cultureManagerName"
+                    style="@style/StaffNameStyle"
+                    android:text="@string/missing"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/sportManagerContainer"
+                style="@style/StaffContainerStyle">
+
+                <TextView
+                    android:id="@+id/sportManagerPost"
+                    style="@style/StaffTextStyle"
+                    android:text="@string/sportManager"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/sportManagerPhoto"
+                    style="@style/StaffPhotoStyle"/>
+
+                <TextView
+                    android:id="@+id/sportManagerName"
+                    style="@style/StaffNameStyle"
+                    android:text="@string/missing"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

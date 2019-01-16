@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:showIn="navigation_view">
+
+	<item android:title="@string/common">
+		<menu>
+			<item
+				android:id="@+id/menu_hostels"
+				android:title="@string/hostels"
+				android:icon="@drawable/ic_hostel"/>
+
+			<item
+				android:id="@+id/menu_map"
+				android:title="@string/map"
+				android:icon="@drawable/ic_map"/>
+
+			<item
+				android:id="@+id/menu_news"
+				android:title="@string/news"
+				android:icon="@drawable/ic_news"/>
+		</menu>
+	</item>
+	<item android:title="@string/events">
+		<menu>
+			<item
+				android:id="@+id/misters"
+				android:title="@string/mister_of_city"
+				android:icon="@drawable/ic_misters"/>
+
+			<item
+				android:id="@+id/miss"
+				android:title="@string/miss_of_city"
+				android:icon="@drawable/ic_miss"/>
+
+			<item
+				android:id="@+id/menu_best_room"
+				android:title="@string/best_room"
+				android:icon="@drawable/ic_room"/>
+		</menu>
+	</item>
+</menu>

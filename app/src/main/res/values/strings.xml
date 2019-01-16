@@ -1,0 +1,43 @@
+<resources>
+	<string name="app_name">Студгородок ЮУрГУ</string>
+	<string name="navigation_drawer_open">Open navigation drawer</string>
+	<string name="navigation_drawer_close">Close navigation drawer</string>
+	<string name="nav_header_title">Android Studio</string>
+	<string name="nav_header_subtitle">android.studio@android.com</string>
+	<string name="nav_header_desc">Navigation header</string>
+	<string name="action_settings">Settings</string>
+
+	<string name="common">Общее</string>
+	<string name="hostels">Общежития</string>
+	<string name="student_council">Студсоветы</string>
+	<string name="map">Карта</string>
+	<string name="news">Новости</string>
+	<string name="events">Мероприятия</string>
+
+	<string name="director">Директор\nстудгородка</string>
+	<string name="main_student_manager">Председатель студогородка</string>
+	<string name="main_culture_manager">Культорг студгородка</string>
+	<string name="main_sport_manager">Спорторг студгородка</string>
+	<string name="hostelManager">Заведующий</string>
+	<string name="studentManager">Председатель</string>
+	<string name="cultureManager">Культорг</string>
+	<string name="sportManager">Спорторг</string>
+
+	<string name="hostel">Общежитие</string>
+	<string name="address">Адрес</string>
+	<string name="numberFloors">Количество этажей</string>
+	<string name="numberStudent">Проживает студентов</string>
+	<string name="rating">Рейтинг</string>
+	<string name="missing">Отсутсвует</string>
+
+
+	<string name="mister_of_city">Мистер студгородка</string>
+	<string name="miss_of_city">Мисс студгородка</string>
+	<string name="best_room">Лучшая комната</string>
+
+	<!--Errors-->
+	<string name="error_downloading_data">Ошибка загрузки данных</string>
+	<string name="internet_connection_is_messed">Отсутствует интернет соединение</string>
+
+    <string name="title_activity_map">Map</string>
+</resources>
