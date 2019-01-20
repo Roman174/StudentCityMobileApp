@@ -1,6 +1,8 @@
 package com.susu.studentcity.models.database;
 
-public class Coordinates {
+import java.io.Serializable;
+
+public class Coordinates implements Serializable {
     private double latitude;
     private double longitude;
 

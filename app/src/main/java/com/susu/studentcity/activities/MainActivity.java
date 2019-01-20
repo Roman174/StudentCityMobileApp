@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import com.susu.studentcity.R;
 import com.susu.studentcity.fragments.HostelFragment;
 import com.susu.studentcity.fragments.ListOfHostelsFragment;
+import com.susu.studentcity.fragments.NewsFragment;
 import com.susu.studentcity.models.Router;
 
 public class MainActivity extends AppCompatActivity
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity
         progressBar = findViewById(R.id.progress_bar);
 
         router = new Router(this);
-        router.startFragment(new ListOfHostelsFragment(), null);
+        router.showFragmentGone(new ListOfHostelsFragment(), null);
     }
 
     @Override
@@ -66,6 +67,10 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case R.id.menu_hostels:
                 router.showFragmentGone(new ListOfHostelsFragment(),null);
+                break;
+
+            case R.id.menu_news:
+                router.showFragmentGone(new NewsFragment(), null);
                 break;
         }
 

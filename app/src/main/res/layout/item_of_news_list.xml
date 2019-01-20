@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <ImageView
-        android:id="@+id/photo_news_item"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/news"/>
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="WebViewLayout"
+    android:padding="@dimen/activity_vertical_margin"
+    android:background="@android:drawable/dialog_holo_light_frame">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/textContentView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="День матери"
-        android:layout_marginTop="4dp"
-        android:layout_marginLeft="@dimen/text_margin"
-        android:textColor="@android:color/black"
-        android:fontFamily="sans-serif-light"
-        android:textSize="17sp"/>
+        android:textSize="10sp"
+        android:textColor="@color/vk_black"
+        android:linksClickable="true"
+        android:textColorLink="@color/colorAccent"
+        android:autoLink="web"/>
 
+    <ImageView
+        android:id="@+id/imageContentView"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="@dimen/text_margin"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin" />
 </LinearLayout>

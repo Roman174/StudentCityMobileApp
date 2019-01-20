@@ -1,5 +1,6 @@
 package com.susu.studentcity.fragments;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.susu.studentcity.R;
 import com.susu.studentcity.fragments.presenters.HostelFragmentPresenter;
+import com.susu.studentcity.models.ImageLoader.ImageLoader;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -47,9 +49,8 @@ public class HostelFragment extends Fragment {
 
     private ProgressBar progressBar;
 
-    private String stub;
-
     private HostelFragmentPresenter presenter;
+    private ImageLoader imageLoader;
 
     @Nullable
     @Override
@@ -66,6 +67,13 @@ public class HostelFragment extends Fragment {
         hostelPhoto = view.findViewById(R.id.hostelPhoto);
 
         buttonCall = view.findViewById(R.id.buttonCall);
+        buttonCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.redirectToCall();
+            }
+        });
+
         buttonMap  = view.findViewById(R.id.buttonInMap);
 
         hostelTitle          = view.findViewById(R.id.hostelTitle);
@@ -92,13 +100,37 @@ public class HostelFragment extends Fragment {
         presenter.showHostel();
     }
 
-    private void setText(TextView textView, String type,  String text) {
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(imageLoader != null)
+            imageLoader.cancel();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(imageLoader != null)
+            imageLoader.cancel();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    private void setText(TextView textView, String type, String text) {
         String resultText = String.format("%s: %s", type, text);
         textView.setText(resultText);
     }
 
     public void showHostelPhoto(String photo) {
-        if(photo == null) return;
+        if(TextUtils.isEmpty(photo)) return;
+
+        if(imageLoader == null) {
+            imageLoader = new ImageLoader(hostelPhoto, photo);
+            imageLoader.load();
+        }
     }
 
     public void showHostelTitle(String title) {

@@ -1,9 +1,11 @@
 package com.susu.studentcity.fragments.presenters;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.susu.studentcity.R;
 import com.susu.studentcity.fragments.HostelFragment;
+import com.susu.studentcity.models.Router;
 import com.susu.studentcity.models.database.Coordinates;
 import com.susu.studentcity.models.database.Hostel;
 import com.susu.studentcity.models.database.Post;
@@ -11,9 +13,12 @@ import com.susu.studentcity.models.database.Stuff;
 
 public class HostelFragmentPresenter {
     private HostelFragment fragment;
+    private Hostel hostel;
+    private Router router;
 
     public HostelFragmentPresenter(HostelFragment fragment) {
         this.fragment = fragment;
+        this.router = new Router(fragment);
     }
 
     public void showHostel() {
@@ -23,7 +28,7 @@ public class HostelFragmentPresenter {
             return;
         }
 
-        Hostel hostel = (Hostel) args.getSerializable(Hostel.SERIALIZABLE_KEY);
+        hostel = (Hostel) args.getSerializable(Hostel.SERIALIZABLE_KEY);
 
         if(hostel == null) {
             fragment.showMessage(fragment.getString(R.string.error_downloading_data));
@@ -71,7 +76,12 @@ public class HostelFragmentPresenter {
         }
     }
 
-    public void redirectToCall(String phone) {
+    public void redirectToCall() {
+        if(hostel == null) return;
+
+        String phoneNumber = hostel.getPhone();
+        if(!TextUtils.isEmpty(phoneNumber))
+            router.redirectToCallForward(phoneNumber);
 
     }
 
