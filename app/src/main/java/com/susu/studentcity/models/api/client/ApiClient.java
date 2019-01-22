@@ -1,5 +1,10 @@
 package com.susu.studentcity.models.api.client;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.v4.app.FragmentActivity;
+
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -12,7 +17,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class ApiClient {
-    public static final String API_URL = "http://192.168.31.44/";
+    private FragmentActivity activity;
+    public static final String API_URL = "http://192.168.31.72/";
 
     private OkHttpClient client;
     private static final int TIMEOUT = 30;
@@ -20,16 +26,17 @@ public class ApiClient {
 
     private static ApiClient singleton = null;
 
-    private ApiClient() {
+    private ApiClient(FragmentActivity activity) {
         client = new OkHttpClient.Builder()
                 .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(TIMEOUT, TimeUnit.SECONDS)
                 .build();
+        this.activity = activity;
     }
 
-    public static ApiClient getInstance() {
+    public static ApiClient getInstance(FragmentActivity activity) {
         if (singleton == null) {
-            singleton = new ApiClient();
+            singleton = new ApiClient(activity);
             return singleton;
         } else return singleton;
     }
@@ -65,16 +72,11 @@ public class ApiClient {
     }
 
     public boolean isOnline() {
-        Runtime runtime = Runtime.getRuntime();
-        try {
-            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
-            int     exitValue = ipProcess.waitFor();
-            return (exitValue == 0);
-        }
-        catch (IOException e)          { e.printStackTrace(); }
-        catch (InterruptedException e) { e.printStackTrace(); }
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager)activity.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        return false;
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo == null ? false : networkInfo.isConnected();
     }
 
 

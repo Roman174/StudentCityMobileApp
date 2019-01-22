@@ -1,12 +1,9 @@
 package com.susu.studentcity.fragments;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +19,7 @@ import com.susu.studentcity.models.ImageLoader.ImageLoader;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class HostelFragment extends Fragment {
+public class HostelFragment extends RootFragment {
 
     private ImageView hostelPhoto;
 
@@ -30,7 +27,7 @@ public class HostelFragment extends Fragment {
     private Button buttonMap;
 
     private TextView hostelTitle;
-    private TextView hostelAdress;
+    private TextView hostelAddress;
     private TextView hostelNumberFloors;
     private TextView hostelNumberStudents;
     private TextView hostelRating;
@@ -77,7 +74,7 @@ public class HostelFragment extends Fragment {
         buttonMap  = view.findViewById(R.id.buttonInMap);
 
         hostelTitle          = view.findViewById(R.id.hostelTitle);
-        hostelAdress         = view.findViewById(R.id.hostelAddress);
+        hostelAddress = view.findViewById(R.id.hostelAddress);
         hostelNumberFloors   = view.findViewById(R.id.hostelNumberFloors);
         hostelNumberStudents = view.findViewById(R.id.hostelNumberStudents);
         hostelRating         = view.findViewById(R.id.hostelRating);
@@ -140,7 +137,7 @@ public class HostelFragment extends Fragment {
 
     public void showAddress(String address) {
         String typeForAddress = getString(R.string.address);
-        setText(hostelAdress, typeForAddress, address);
+        setText(hostelAddress, typeForAddress, address);
     }
 
     public void showNumberFloors(int number) {
@@ -172,18 +169,5 @@ public class HostelFragment extends Fragment {
 
     public void showSportManager(String photo, String name) {
 
-    }
-
-    public void showProgress() {
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    public void hideProgress() {
-        progressBar.setVisibility(View.INVISIBLE);
-    }
-
-    public void showMessage(String msg) {
-        Snackbar.make(getView(), msg, Snackbar.LENGTH_LONG)
-                .show();
     }
 }

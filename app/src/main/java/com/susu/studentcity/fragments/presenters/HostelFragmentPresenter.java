@@ -18,7 +18,7 @@ public class HostelFragmentPresenter {
 
     public HostelFragmentPresenter(HostelFragment fragment) {
         this.fragment = fragment;
-        this.router = new Router(fragment);
+        this.router = Router.getInstance(fragment);
     }
 
     public void showHostel() {

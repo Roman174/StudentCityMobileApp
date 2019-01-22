@@ -19,11 +19,10 @@ import com.susu.studentcity.fragments.presenters.ListOfHostelsFragmentPresenter;
 import com.susu.studentcity.models.Router;
 import com.susu.studentcity.models.database.Hostel;
 
-public class ListOfHostelsFragment extends Fragment
+public class ListOfHostelsFragment extends RootFragment
         implements HostelListAdapter.onItemClickListener {
 
     private RecyclerView listOfHostelsView;
-    private ProgressBar progressBar;
 
     private ListOfHostelsFragmentPresenter presenter;
 
@@ -43,24 +42,30 @@ public class ListOfHostelsFragment extends Fragment
 
         listOfHostelsView = fragmentView.findViewById(R.id.list_of_hostel);
 
-        progressBar = getActivity().findViewById(R.id.progress_bar);
-
         presenter = new ListOfHostelsFragmentPresenter(this);
-        presenter.downloadListOfHostels();
 
-        router = new Router(this);
+        router = Router.getInstance(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         presenter.cancelDownloading();
+        hideProgress();
     }
 
     @Override
     public void onStop() {
         super.onStop();
         presenter.cancelDownloading();
+        hideProgress();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.cancelDownloading();
+        hideProgress();
     }
 
     @Override
@@ -75,19 +80,6 @@ public class ListOfHostelsFragment extends Fragment
                 getActivity(), LinearLayoutManager.VERTICAL, false);
         listOfHostelsView.setLayoutManager(linearLayoutManager);
         listOfHostelsView.setAdapter(adapter);
-    }
-
-
-    public void showMessage(String msg) {
-        Snackbar.make(getView(), msg, Snackbar.LENGTH_LONG).show();
-    }
-
-    public void showProgress() {
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    public void hideProgress() {
-        progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override

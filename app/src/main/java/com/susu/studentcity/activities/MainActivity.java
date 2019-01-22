@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ProgressBar progressBar;
+    DrawerLayout drawer;
 
     private Router router;
 
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -44,8 +45,8 @@ public class MainActivity extends AppCompatActivity
 
         progressBar = findViewById(R.id.progress_bar);
 
-        router = new Router(this);
-        router.showFragmentGone(new ListOfHostelsFragment(), null);
+        router = Router.getInstance(this);
+        router.startFragment(new ListOfHostelsFragment(), null);
     }
 
     @Override
@@ -61,7 +62,6 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         switch (id) {
@@ -74,16 +74,17 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
     public void showProgress() {
-        progressBar.setVisibility(View.VISIBLE);
+        if(progressBar.getVisibility() != View.VISIBLE)
+            progressBar.setVisibility(View.VISIBLE);
     }
 
     public void hideProgress() {
-        progressBar.setVisibility(View.INVISIBLE);
+        if(progressBar.getVisibility() != View.INVISIBLE)
+            progressBar.setVisibility(View.INVISIBLE);
     }
 }

@@ -13,10 +13,11 @@
         android:id="@+id/textContentView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="10sp"
-        android:textColor="@color/vk_black"
+        android:textSize="14sp"
+        android:textColor="@color/colorDarkLight"
         android:linksClickable="true"
         android:textColorLink="@color/colorAccent"
+        android:fontFamily="sans-serif"
         android:autoLink="web"/>
 
     <ImageView

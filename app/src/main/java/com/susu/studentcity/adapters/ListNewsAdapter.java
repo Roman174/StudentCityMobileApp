@@ -12,84 +12,66 @@ import android.widget.TextView;
 
 import com.susu.studentcity.R;
 import com.susu.studentcity.models.ImageLoader.ImageLoader;
-import com.vk.sdk.api.model.VKApiPhoto;
-import com.vk.sdk.api.model.VKApiPost;
-import com.vk.sdk.api.model.VKAttachments;
-import com.vk.sdk.api.model.VKList;
+import com.susu.studentcity.models.news.NewsModel;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ListOfNewsAdapter extends RecyclerView.Adapter<ListOfNewsAdapter.ViewHolder> {
+public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsAdapter.ViewHolder> {
 
-    private VKList<VKApiPost> walls;
-    private ItemClickCallback callback;
+    private ArrayList<NewsModel> news;
+    private ItemClickListener callback;
     private Context context;
 
-    public ListOfNewsAdapter(Context context, VKList<VKApiPost> walls, ItemClickCallback callback) {
-
-        this.walls = new VKList<>();
-        for (VKApiPost post :
-                walls) {
-            if (post.text == null || getPhoto(post) == null) continue;
-
-            this.walls.add(post);
-        }
-
-        this.callback = callback;
+    private ListNewsAdapter(Context context) {
         this.context = context;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if(context == null) return null;
+
         View itemView = LayoutInflater.from(context).inflate(R.layout.item_of_news_list,
                 parent, false);
         return new ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if(walls == null) return;
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+        if(news == null) return;
 
-        VKApiPost post = walls.get(position);
-        if(post.text != null) {
-            holder.setTextContentView(post.text);
+        if(callback != null)
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    callback.onClick(news.get(position));
+                }
+            });
+
+        NewsModel post = news.get(position);
+        if(post.getText() != null) {
+            holder.setTextContentView(post.getText());
         } else {
             holder.hideText();
         }
 
-        String photo = getPhoto(post);
+        String photo = post.getPhoto();
         if(photo != null) {
             holder.setImageContentView(photo);
         }
         else holder.hideImage();
     }
 
-    private String getPhoto(VKApiPost post) {
-        if(post.attachments.getCount() > 0) {
-            for (VKAttachments.VKApiAttachment attachment :
-                    post.attachments) {
-
-                if(attachment.getType().equals("photo")) {
-                    VKApiPhoto photo = (VKApiPhoto) attachment;
-
-                    if(photo != null) {
-                        if(photo.photo_1280 != null)
-                            return photo.photo_1280;
-                        else if(photo.photo_604 != null)
-                            return photo.photo_604;
-                        else return null;
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
     @Override
     public int getItemCount() {
-        return walls.getCount();
+        return news.size();
+    }
+
+    public void update(ArrayList<NewsModel> news) {
+        this.news = news;
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -97,8 +79,11 @@ public class ListOfNewsAdapter extends RecyclerView.Adapter<ListOfNewsAdapter.Vi
         private TextView textContentView;
         private ImageView imageContentView;
 
+        private View itemView;
+
         public ViewHolder(View itemView) {
             super(itemView);
+            this.itemView = itemView;
             textContentView = itemView.findViewById(R.id.textContentView);
             imageContentView = itemView.findViewById(R.id.imageContentView);
         }
@@ -175,7 +160,40 @@ public class ListOfNewsAdapter extends RecyclerView.Adapter<ListOfNewsAdapter.Vi
         }
     }
 
-    public interface ItemClickCallback {
-        void onClick(VKApiPost wall);
+    public interface ItemClickListener {
+        void onClick(NewsModel news);
+    }
+
+    public static class Builder {
+
+        private Context context;
+        private ArrayList<NewsModel> news;
+        private ItemClickListener itemClickListener;
+
+        public Builder(Context context) {
+            this.context = context;
+        }
+
+        public Builder addNews(ArrayList<NewsModel> news) {
+            this.news = news;
+            return this;
+        }
+
+        public Builder addItemClickListener(ItemClickListener itemClickListener) {
+            this.itemClickListener = itemClickListener;
+            return this;
+        }
+
+        public ListNewsAdapter build() {
+            ListNewsAdapter adapter = new ListNewsAdapter(context);
+
+            if(news != null)
+                adapter.news = news;
+
+            if(itemClickListener != null)
+                adapter.callback = itemClickListener;
+
+            return adapter;
+        }
     }
 }

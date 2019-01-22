@@ -17,7 +17,7 @@ public class ListOfHostelsFragmentPresenter {
     public void downloadListOfHostels() {
         loader = new LoaderOfHostels();
         fragment.showProgress();
-        loader.download(new DownloadListOfHostelsCallback() {
+        loader.download(fragment.getActivity(),  new DownloadListOfHostelsCallback() {
             @Override
             public void onSuccess(Hostel[] hostels) {
                 fragment.hideProgress();

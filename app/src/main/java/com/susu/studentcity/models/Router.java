@@ -13,33 +13,57 @@ import com.susu.studentcity.R;
 
 public class Router {
 
+    private static Router singleton;
+
     private FragmentManager fragmentManager;
     private Activity activity;
 
+    private Fragment currentFragment;
 
-    public Router(Fragment fragment) {
+    private Router(Fragment fragment) {
         this.fragmentManager = fragment.getActivity().getSupportFragmentManager();
         this.activity = fragment.getActivity();
     }
 
-    public Router(AppCompatActivity appCompatActivity) {
+    private Router(AppCompatActivity appCompatActivity) {
         this.activity = appCompatActivity;
         this.fragmentManager = appCompatActivity.getSupportFragmentManager();
+    }
+
+    public static Router getInstance(Fragment fragment) {
+        if(singleton == null) {
+            singleton = new Router(fragment);
+            return singleton;
+        }
+        else return singleton;
+    }
+
+    public static Router getInstance(AppCompatActivity activity) {
+        if(singleton == null) {
+            singleton = new Router(activity);
+            return singleton;
+        }
+        else return singleton;
     }
 
     public void startFragment(Fragment newFragment, Bundle args) {
         if(args != null)
             newFragment.setArguments(args);
 
+        currentFragment = newFragment;
+
         fragmentManager
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .add(R.id.fragment_container, newFragment)
-                .addToBackStack(null)
                 .commit();
     }
 
     public void showFragment(Fragment newFragment, Bundle args) {
+        if(currentFragment.getClass() == newFragment.getClass()) return;
+
+        currentFragment = newFragment;
+
         if(args != null)
             newFragment.setArguments(args);
 
@@ -52,6 +76,10 @@ public class Router {
     }
 
     public void showFragmentGone(Fragment newFragment, Bundle args) {
+        if(currentFragment.getClass() == newFragment.getClass()) return;
+
+        currentFragment = newFragment;
+
         if(args != null)
             newFragment.setArguments(args);
 

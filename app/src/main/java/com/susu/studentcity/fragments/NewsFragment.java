@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,14 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.susu.studentcity.R;
-import com.susu.studentcity.adapters.ListOfNewsAdapter;
+import com.susu.studentcity.adapters.ListNewsAdapter;
+import com.susu.studentcity.adapters.ListOfNewsAdapterCreator.ListNewsAdapterAsyncCreator;
 import com.susu.studentcity.fragments.presenters.NewsFragmentPresenter;
-import com.vk.sdk.api.model.VKApiPost;
-import com.vk.sdk.api.model.VKList;
+import com.susu.studentcity.models.news.NewsModel;
 
-public class NewsFragment extends Fragment {
+import java.util.ArrayList;
 
-    private RecyclerView listOfNewsView;
+public class NewsFragment extends RootFragment {
+
+    private RecyclerView listNewsView;
     private NewsFragmentPresenter presenter;
 
     @Nullable
@@ -35,7 +36,10 @@ public class NewsFragment extends Fragment {
                               @Nullable Bundle savedInstanceState) {
         super.onViewCreated(fragmentView, savedInstanceState);
 
-        listOfNewsView = fragmentView.findViewById(R.id.list_news_view);
+        listNewsView = fragmentView.findViewById(R.id.list_news_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
+                LinearLayoutManager.VERTICAL, false);
+        listNewsView.setLayoutManager(layoutManager);
         presenter = new NewsFragmentPresenter(this);
     }
 
@@ -43,9 +47,9 @@ public class NewsFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        if(presenter.auth())
+        if(presenter.auth()) {
             presenter.sendRequest();
-
+        }
         presenter.startTokenTracking();
     }
 
@@ -53,6 +57,9 @@ public class NewsFragment extends Fragment {
     public void onStop() {
         super.onStop();
         presenter.stopTokenTracking();
+
+        if(creatorAdapter != null)
+            creatorAdapter.cancel();
     }
 
     @Override
@@ -61,18 +68,33 @@ public class NewsFragment extends Fragment {
         presenter.onAuthResult(requestCode, resultCode, data);
     }
 
-    public void showNews(VKList<VKApiPost> walls) {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
-                LinearLayoutManager.VERTICAL, false);
-        listOfNewsView.setLayoutManager(layoutManager);
+    ListNewsAdapterAsyncCreator creatorAdapter;
+    public void showNews(ArrayList<NewsModel> news) {
 
-        ListOfNewsAdapter adapter = new ListOfNewsAdapter(getContext(), walls, itemClickCallback);
-        listOfNewsView.setAdapter(adapter);
+        if(listNewsView.getAdapter() != null) {
+            ListNewsAdapter adapter = (ListNewsAdapter) listNewsView.getAdapter();
+            adapter.update(news);
+            return;
+        }
+
+        creatorAdapter = new ListNewsAdapterAsyncCreator.Builder(getContext())
+                .addNews(news)
+                .addCallback(creatorCallback)
+                .build();
+
+        if(creatorAdapter != null)
+            creatorAdapter.create();
     }
 
-    ListOfNewsAdapter.ItemClickCallback itemClickCallback = new ListOfNewsAdapter.ItemClickCallback() {
+    ListNewsAdapterAsyncCreator.Callback creatorCallback = new ListNewsAdapterAsyncCreator.Callback() {
         @Override
-        public void onClick(VKApiPost wall) {
+        public void onComplete(ListNewsAdapter adapter) {
+            listNewsView.setAdapter(adapter);
+            hideProgress();
+        }
+
+        @Override
+        public void onFail() {
 
         }
     };

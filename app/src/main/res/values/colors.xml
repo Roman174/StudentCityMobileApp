@@ -4,6 +4,8 @@
 	<color name="colorPrimaryDark">#1a5592</color>
 	<color name="colorAccent">#e93d3d</color>
 
+	<color name="colorDarkLight">#303030</color>
+
 	<color name="colorGray300">#E0E0E0</color>
 
 	<color name="hostel_1">#d03233</color>

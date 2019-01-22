@@ -2,8 +2,11 @@ package com.susu.studentcity.fragments.presenters;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
+import com.susu.studentcity.R;
 import com.susu.studentcity.fragments.NewsFragment;
+import com.susu.studentcity.models.news.NewsModel;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKAccessTokenTracker;
 import com.vk.sdk.VKCallback;
@@ -14,8 +17,12 @@ import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.VKParameters;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
+import com.vk.sdk.api.model.VKApiPhoto;
 import com.vk.sdk.api.model.VKApiPost;
+import com.vk.sdk.api.model.VKAttachments;
 import com.vk.sdk.api.model.VKList;
+
+import java.util.ArrayList;
 
 public class NewsFragmentPresenter {
     private NewsFragment fragment;
@@ -50,33 +57,71 @@ public class NewsFragmentPresenter {
         }
     };
 
+    private NewsModel.ConvertCallback convertCallback = new NewsModel.ConvertCallback() {
+        @Override
+        public void onConvert(ArrayList<NewsModel> news) {
+            fragment.showNews(news);
+        }
+
+        @Override
+        public void onFail() {
+
+        }
+    };
+
     public void sendRequest() {
+
+        if(!fragment.checkInternetConnection()) {
+            fragment.showMessage(fragment.getString(R.string.internet_connection_is_messed));
+            return;
+        }
+
+        fragment.showProgress();
+
         VKRequest request = VKApi
                 .wall()
                 .get(VKParameters
                         .from(DOMAIN_PARAMETER, DOMAIN, VKApiConst.COUNT, COUNT_WALL,
                                 VKApiConst.EXTENDED, 1));
 
-        request.executeSyncWithListener(new VKRequest.VKRequestListener() {
+        request.executeWithListener(new VKRequest.VKRequestListener() {
             @Override
             public void onComplete(VKResponse response) {
                 super.onComplete(response);
+                VKList<VKApiPost> posts = (VKList<VKApiPost>) response.parsedModel;
+                NewsModel.convert(posts, convertCallback);
+            }
 
-                VKList<VKApiPost> walls = (VKList<VKApiPost>) response.parsedModel;
-                fragment.showNews(walls);
+            @Override
+            public void onError(VKError error) {
+                super.onError(error);
+                fragment.hideProgress();
+            }
+
+            @Override
+            public void attemptFailed(VKRequest request, int attemptNumber, int totalAttempts) {
+                super.attemptFailed(request, attemptNumber, totalAttempts);
+                fragment.hideProgress();
             }
         });
     }
 
+
+
     public boolean auth() {
-        if(!VKSdk.isLoggedIn()) {
-            VKSdk.login(fragment.getActivity(), null);
+        if(fragment.checkInternetConnection()) {
+            if(!VKSdk.isLoggedIn()) {
+                VKSdk.login(fragment.getActivity(), null);
+                return false;
+            }
+
+            return true;
+        }
+        else {
+            fragment.showMessage(fragment.getString(R.string.internet_connection_is_messed));
             return false;
         }
-
-        return true;
     }
-
     public void onAuthResult(int requestCode, int resultCode, Intent data) {
         VKSdk.onActivityResult(requestCode, resultCode, data, vkAuthCallback);
     }
