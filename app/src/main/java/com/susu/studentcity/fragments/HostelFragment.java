@@ -3,7 +3,6 @@ package com.susu.studentcity.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +46,12 @@ public class HostelFragment extends RootFragment {
     private ProgressBar progressBar;
 
     private HostelFragmentPresenter presenter;
-    private ImageLoader imageLoader;
+
+    private ImageLoader hostelPhotoLoader;
+    private ImageLoader hostelManagerPhotoLoader;
+    private ImageLoader studentManagerPhotoLoader;
+    private ImageLoader cultureManagerPhotoLoader;
+    private ImageLoader sportManagerPhotoLoader;
 
     @Nullable
     @Override
@@ -100,15 +104,15 @@ public class HostelFragment extends RootFragment {
     @Override
     public void onStop() {
         super.onStop();
-        if(imageLoader != null)
-            imageLoader.cancel();
+        if(hostelPhotoLoader != null)
+            hostelPhotoLoader.cancel();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if(imageLoader != null)
-            imageLoader.cancel();
+        if(hostelPhotoLoader != null)
+            hostelPhotoLoader.cancel();
     }
 
     @Override
@@ -124,9 +128,9 @@ public class HostelFragment extends RootFragment {
     public void showHostelPhoto(String photo) {
         if(TextUtils.isEmpty(photo)) return;
 
-        if(imageLoader == null) {
-            imageLoader = new ImageLoader(hostelPhoto, photo);
-            imageLoader.load();
+        if(hostelPhotoLoader == null) {
+            hostelPhotoLoader = new ImageLoader(hostelPhoto, photo);
+            hostelPhotoLoader.load();
         }
     }
 
@@ -155,19 +159,47 @@ public class HostelFragment extends RootFragment {
         setText(hostelRating, typeForRating, String.valueOf(rating));
     }
 
-    public void showHostelManager(String photo, String name) {
+    private boolean checkPhotoAndName(String photo, String name) {
+        return TextUtils.isEmpty(photo) || TextUtils.isEmpty(name);
+    }
 
+    public void showHostelManager(String photo, String name) {
+        if(checkPhotoAndName(photo, name)) return;
+
+        if(hostelManagerPhotoLoader == null) {
+            hostelManagerPhotoLoader = new ImageLoader(hostelManagerPhoto, photo);
+            hostelManagerPhotoLoader.load();
+        }
+        hostelManagerName.setText(name);
     }
 
     public void showStudentManager(String photo, String name) {
+        if(checkPhotoAndName(photo, name)) return;
 
+        if(studentManagerPhotoLoader == null) {
+            studentManagerPhotoLoader = new ImageLoader(studentManagerPhoto, name);
+            studentManagerPhotoLoader.load();
+        }
+        studentManagerName.setText(name);
     }
 
     public void showCultureManager(String photo, String name) {
+        if(checkPhotoAndName(photo, name)) return;
 
+        if(cultureManagerPhotoLoader == null) {
+            cultureManagerPhotoLoader = new ImageLoader(cultureManagerPhoto, photo);
+            cultureManagerPhotoLoader.load();
+        }
+        cultureManagerName.setText(name);
     }
 
     public void showSportManager(String photo, String name) {
+        if(checkPhotoAndName(photo, name)) return;
 
+        if(sportManagerPhotoLoader == null) {
+            sportManagerPhotoLoader = new ImageLoader(sportManagerPhoto, name);
+            sportManagerPhotoLoader.load();
+        }
+        sportManagerName.setText(name);
     }
 }

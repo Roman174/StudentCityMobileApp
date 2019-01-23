@@ -46,8 +46,6 @@ public class MainActivity extends AppCompatActivity
         progressBar = findViewById(R.id.progress_bar);
         router = new Router(this);
         router.startFragment(new ListOfHostelsFragment(), null);
-
-
     }
 
     @Override

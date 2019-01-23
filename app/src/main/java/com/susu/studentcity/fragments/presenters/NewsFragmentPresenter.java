@@ -60,6 +60,7 @@ public class NewsFragmentPresenter {
     private NewsModel.ConvertCallback convertCallback = new NewsModel.ConvertCallback() {
         @Override
         public void onConvert(ArrayList<NewsModel> news) {
+            fragment.hideProgress();
             fragment.showNews(news);
         }
 
