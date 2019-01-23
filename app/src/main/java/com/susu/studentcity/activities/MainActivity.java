@@ -44,9 +44,10 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         progressBar = findViewById(R.id.progress_bar);
-
-        router = Router.getInstance(this);
+        router = new Router(this);
         router.startFragment(new ListOfHostelsFragment(), null);
+
+
     }
 
     @Override
@@ -76,6 +77,21 @@ public class MainActivity extends AppCompatActivity
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     public void showProgress() {

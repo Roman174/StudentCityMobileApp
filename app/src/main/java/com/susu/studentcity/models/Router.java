@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -13,62 +14,43 @@ import com.susu.studentcity.R;
 
 public class Router {
 
-    private static Router singleton;
-
     private FragmentManager fragmentManager;
     private Activity activity;
 
     private Fragment currentFragment;
 
-    private Router(Fragment fragment) {
-        this.fragmentManager = fragment.getActivity().getSupportFragmentManager();
+    public Router(Fragment fragment) {
+        this.fragmentManager = fragment
+                .getActivity()
+                .getSupportFragmentManager();
+
+        this.currentFragment = fragment;
+
         this.activity = fragment.getActivity();
     }
 
-    private Router(AppCompatActivity appCompatActivity) {
+    public Router(AppCompatActivity appCompatActivity) {
         this.activity = appCompatActivity;
         this.fragmentManager = appCompatActivity.getSupportFragmentManager();
-    }
-
-    public static Router getInstance(Fragment fragment) {
-        if(singleton == null) {
-            singleton = new Router(fragment);
-            return singleton;
-        }
-        else return singleton;
-    }
-
-    public static Router getInstance(AppCompatActivity activity) {
-        if(singleton == null) {
-            singleton = new Router(activity);
-            return singleton;
-        }
-        else return singleton;
     }
 
     public void startFragment(Fragment newFragment, Bundle args) {
         if(args != null)
             newFragment.setArguments(args);
 
-        currentFragment = newFragment;
-
-        fragmentManager
-                .beginTransaction()
+        fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .add(R.id.fragment_container, newFragment)
                 .commit();
     }
 
     public void showFragment(Fragment newFragment, Bundle args) {
-        if(currentFragment.getClass() == newFragment.getClass()) return;
-
-        currentFragment = newFragment;
+        if(currentFragment != null && currentFragment.getClass() == newFragment.getClass()) return;
 
         if(args != null)
             newFragment.setArguments(args);
 
-        fragmentManager
-                .beginTransaction()
+        fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .replace(R.id.fragment_container, newFragment)
                 .addToBackStack(null)
@@ -76,18 +58,22 @@ public class Router {
     }
 
     public void showFragmentGone(Fragment newFragment, Bundle args) {
-        if(currentFragment.getClass() == newFragment.getClass()) return;
-
-        currentFragment = newFragment;
+        if(currentFragment != null && currentFragment.getClass() == newFragment.getClass()) return;
 
         if(args != null)
             newFragment.setArguments(args);
 
-        fragmentManager
-                .beginTransaction()
+        fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .replace(R.id.fragment_container, newFragment)
                 .commit();
+    }
+
+    public void clearFragment() {
+        if(currentFragment != null)
+            fragmentManager.beginTransaction()
+                    .remove(currentFragment)
+                    .commit();
     }
 
     public void redirectToCallForward(String phoneNumber) {

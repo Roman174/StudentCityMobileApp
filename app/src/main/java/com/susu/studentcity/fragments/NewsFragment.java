@@ -1,7 +1,11 @@
 package com.susu.studentcity.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.ParcelUuid;
+import android.print.PrinterId;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +16,6 @@ import android.view.ViewGroup;
 
 import com.susu.studentcity.R;
 import com.susu.studentcity.adapters.ListNewsAdapter;
-import com.susu.studentcity.adapters.ListOfNewsAdapterCreator.ListNewsAdapterAsyncCreator;
 import com.susu.studentcity.fragments.presenters.NewsFragmentPresenter;
 import com.susu.studentcity.models.news.NewsModel;
 
@@ -57,9 +60,6 @@ public class NewsFragment extends RootFragment {
     public void onStop() {
         super.onStop();
         presenter.stopTokenTracking();
-
-        if(creatorAdapter != null)
-            creatorAdapter.cancel();
     }
 
     @Override
@@ -68,34 +68,14 @@ public class NewsFragment extends RootFragment {
         presenter.onAuthResult(requestCode, resultCode, data);
     }
 
-    ListNewsAdapterAsyncCreator creatorAdapter;
     public void showNews(ArrayList<NewsModel> news) {
-
         if(listNewsView.getAdapter() != null) {
             ListNewsAdapter adapter = (ListNewsAdapter) listNewsView.getAdapter();
             adapter.update(news);
             return;
         }
 
-        creatorAdapter = new ListNewsAdapterAsyncCreator.Builder(getContext())
-                .addNews(news)
-                .addCallback(creatorCallback)
-                .build();
-
-        if(creatorAdapter != null)
-            creatorAdapter.create();
+        ListNewsAdapter adapter = new ListNewsAdapter(getContext(), news, null);
+        listNewsView.setAdapter(adapter);
     }
-
-    ListNewsAdapterAsyncCreator.Callback creatorCallback = new ListNewsAdapterAsyncCreator.Callback() {
-        @Override
-        public void onComplete(ListNewsAdapter adapter) {
-            listNewsView.setAdapter(adapter);
-            hideProgress();
-        }
-
-        @Override
-        public void onFail() {
-
-        }
-    };
 }

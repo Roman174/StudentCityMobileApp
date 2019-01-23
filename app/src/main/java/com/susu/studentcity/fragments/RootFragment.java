@@ -14,13 +14,11 @@ import android.widget.ProgressBar;
 import com.susu.studentcity.R;
 
 public class RootFragment extends Fragment {
-    private View rootVIew;
     protected ProgressBar progressBar;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        rootVIew = view.getRootView();
         progressBar = getActivity().findViewById(R.id.progress_bar);
     }
 
@@ -34,7 +32,7 @@ public class RootFragment extends Fragment {
     }
 
     public void showMessage(String message) {
-        Snackbar.make(rootVIew, message, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(getView().getRootView(), message, Snackbar.LENGTH_LONG).show();
     }
 
     public void showProgress() {

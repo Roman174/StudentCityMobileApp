@@ -24,8 +24,12 @@ public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsAdapter.ViewHo
     private ItemClickListener callback;
     private Context context;
 
-    private ListNewsAdapter(Context context) {
-        this.context = context;
+    public ListNewsAdapter(Context context,
+                           ArrayList<NewsModel> news,
+                           ItemClickListener itemClickListener) {
+        this.context  = context;
+        this.news     = news;
+        this.callback = itemClickListener;
     }
 
     @NonNull
@@ -83,8 +87,8 @@ public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsAdapter.ViewHo
 
         public ViewHolder(View itemView) {
             super(itemView);
-            this.itemView = itemView;
-            textContentView = itemView.findViewById(R.id.textContentView);
+            this.itemView    = itemView;
+            textContentView  = itemView.findViewById(R.id.textContentView);
             imageContentView = itemView.findViewById(R.id.imageContentView);
         }
 
@@ -162,38 +166,5 @@ public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsAdapter.ViewHo
 
     public interface ItemClickListener {
         void onClick(NewsModel news);
-    }
-
-    public static class Builder {
-
-        private Context context;
-        private ArrayList<NewsModel> news;
-        private ItemClickListener itemClickListener;
-
-        public Builder(Context context) {
-            this.context = context;
-        }
-
-        public Builder addNews(ArrayList<NewsModel> news) {
-            this.news = news;
-            return this;
-        }
-
-        public Builder addItemClickListener(ItemClickListener itemClickListener) {
-            this.itemClickListener = itemClickListener;
-            return this;
-        }
-
-        public ListNewsAdapter build() {
-            ListNewsAdapter adapter = new ListNewsAdapter(context);
-
-            if(news != null)
-                adapter.news = news;
-
-            if(itemClickListener != null)
-                adapter.callback = itemClickListener;
-
-            return adapter;
-        }
     }
 }

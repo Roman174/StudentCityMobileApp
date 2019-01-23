@@ -1,5 +1,9 @@
 package com.susu.studentcity.fragments;
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleObserver;
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.LifecycleRegistry;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,7 +24,9 @@ import com.susu.studentcity.models.Router;
 import com.susu.studentcity.models.database.Hostel;
 
 public class ListOfHostelsFragment extends RootFragment
-        implements HostelListAdapter.onItemClickListener {
+        implements HostelListAdapter.onItemClickListener, LifecycleOwner {
+
+    private LifecycleRegistry lifecycleRegistry;
 
     private RecyclerView listOfHostelsView;
 
@@ -40,11 +46,12 @@ public class ListOfHostelsFragment extends RootFragment
     public void onViewCreated(@NonNull final View fragmentView, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(fragmentView, savedInstanceState);
 
+        lifecycleRegistry = new LifecycleRegistry(this);
         listOfHostelsView = fragmentView.findViewById(R.id.list_of_hostel);
-
         presenter = new ListOfHostelsFragmentPresenter(this);
+        router = new Router(this);
 
-        router = Router.getInstance(this);
+        setRetainInstance(true);
     }
 
     @Override
@@ -86,7 +93,11 @@ public class ListOfHostelsFragment extends RootFragment
     public void onItemClick(Hostel hostel) {
         Bundle args = new Bundle();
         args.putSerializable(Hostel.SERIALIZABLE_KEY, hostel);
-
         router.showFragment(new HostelFragment(), args);
+    }
+
+    @Override
+    public Lifecycle getLifecycle() {
+        return lifecycleRegistry;
     }
 }
