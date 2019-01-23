@@ -80,7 +80,7 @@ public class Hostel implements Serializable {
 
         for (Stuff stuff :
                 stuffs) {
-            if (stuff.getPost().equals(post))
+            if (stuff.getPost().getTitle().equals(post))
                 return stuff;
         }
 
