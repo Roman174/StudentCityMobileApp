@@ -5,15 +5,14 @@ import android.widget.ImageView;
 public class ImageLoader {
     private ImageLoaderTask task;
     private ImageView imageView;
-    private String url;
 
-    public ImageLoader(ImageView imageView, String url) {
+    public ImageLoader(ImageView imageView) {
         this.imageView = imageView;
         this.url = url;
         task = new ImageLoaderTask(imageView);
     }
 
-    public void load() {
+    public void load(String url) {
         task.execute(url);
     }
 
