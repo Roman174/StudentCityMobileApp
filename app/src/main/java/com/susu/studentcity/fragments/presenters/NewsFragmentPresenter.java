@@ -40,7 +40,7 @@ public class NewsFragmentPresenter {
         public void onVKAccessTokenChanged(@Nullable VKAccessToken oldToken, @Nullable VKAccessToken newToken) {
             if(newToken == null) {
                 VKSdk.logout();
-                VKSdk.login(fragment.getActivity(), null);
+                VKSdk.login(fragment.getActivity(), (String) null);
             }
         }
     };
@@ -112,7 +112,7 @@ public class NewsFragmentPresenter {
     public boolean auth() {
         if(fragment.checkInternetConnection()) {
             if(!VKSdk.isLoggedIn()) {
-                VKSdk.login(fragment.getActivity(), null);
+                VKSdk.login(fragment.getActivity(), (String) null);
                 return false;
             }
 

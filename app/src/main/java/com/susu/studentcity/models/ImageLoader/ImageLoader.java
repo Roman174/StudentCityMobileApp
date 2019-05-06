@@ -8,7 +8,6 @@ public class ImageLoader {
 
     public ImageLoader(ImageView imageView) {
         this.imageView = imageView;
-        this.url = url;
         task = new ImageLoaderTask(imageView);
     }
 

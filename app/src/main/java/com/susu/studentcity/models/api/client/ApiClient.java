@@ -18,7 +18,7 @@ import okhttp3.Response;
 
 public class ApiClient {
     private FragmentActivity activity;
-    public static final String API_URL = "http://192.168.31.72/";
+    public static final String API_URL = "http://192.168.1.46/";
 
     private OkHttpClient client;
     private static final int TIMEOUT = 30;

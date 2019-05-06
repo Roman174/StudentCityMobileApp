@@ -129,8 +129,8 @@ public class HostelFragment extends RootFragment {
         if(TextUtils.isEmpty(photo)) return;
 
         if(hostelPhotoLoader == null) {
-            hostelPhotoLoader = new ImageLoader(hostelPhoto, photo);
-            hostelPhotoLoader.load();
+            hostelPhotoLoader = new ImageLoader(hostelPhoto);
+            hostelPhotoLoader.load(photo);
         }
     }
 
@@ -167,8 +167,8 @@ public class HostelFragment extends RootFragment {
         if(checkPhotoAndName(photo, name)) return;
 
         if(hostelManagerPhotoLoader == null) {
-            hostelManagerPhotoLoader = new ImageLoader(hostelManagerPhoto, photo);
-            hostelManagerPhotoLoader.load();
+            hostelManagerPhotoLoader = new ImageLoader(hostelManagerPhoto);
+            hostelManagerPhotoLoader.load(photo);
         }
         hostelManagerName.setText(name);
     }
@@ -177,8 +177,8 @@ public class HostelFragment extends RootFragment {
         if(checkPhotoAndName(photo, name)) return;
 
         if(studentManagerPhotoLoader == null) {
-            studentManagerPhotoLoader = new ImageLoader(studentManagerPhoto, name);
-            studentManagerPhotoLoader.load();
+            studentManagerPhotoLoader = new ImageLoader(studentManagerPhoto);
+            studentManagerPhotoLoader.load(photo);
         }
         studentManagerName.setText(name);
     }
@@ -187,8 +187,8 @@ public class HostelFragment extends RootFragment {
         if(checkPhotoAndName(photo, name)) return;
 
         if(cultureManagerPhotoLoader == null) {
-            cultureManagerPhotoLoader = new ImageLoader(cultureManagerPhoto, photo);
-            cultureManagerPhotoLoader.load();
+            cultureManagerPhotoLoader = new ImageLoader(cultureManagerPhoto);
+            cultureManagerPhotoLoader.load(photo);
         }
         cultureManagerName.setText(name);
     }
@@ -197,8 +197,8 @@ public class HostelFragment extends RootFragment {
         if(checkPhotoAndName(photo, name)) return;
 
         if(sportManagerPhotoLoader == null) {
-            sportManagerPhotoLoader = new ImageLoader(sportManagerPhoto, name);
-            sportManagerPhotoLoader.load();
+            sportManagerPhotoLoader = new ImageLoader(sportManagerPhoto);
+            sportManagerPhotoLoader.load(photo);
         }
         sportManagerName.setText(name);
     }

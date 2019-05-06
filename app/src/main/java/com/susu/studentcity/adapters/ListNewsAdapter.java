@@ -106,8 +106,8 @@ public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsAdapter.ViewHo
         }
 
         private void setImageContentView(String imageContent) {
-            ImageLoader imageLoader = new ImageLoader(imageContentView, imageContent);
-            imageLoader.load();
+            ImageLoader imageLoader = new ImageLoader(imageContentView);
+            imageLoader.load(imageContent);
         }
 
         private String deleteText(String text, String sourcePattern, String...chars) {
